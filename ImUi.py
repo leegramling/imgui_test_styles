@@ -74,39 +74,26 @@ class FloatSliderStyle(BaseStyle):
         self.pop_common_styles()
 
 
-class ButtonStyle:
+class ButtonStyle(BaseStyle):
     def __init__(self):
+        super().__init__()
         # Button colors for different states
-        self.normal_bg = (0.2, 0.2, 0.2, 1.0)  # Normal background color
-        self.hovered_bg = (0.3, 0.3, 0.3, 1.0)  # Hovered background color 
-        self.active_bg = (0.4, 0.4, 0.4, 1.0)   # Active/pressed background color
-        
-        # Text colors
-        self.text = (1.0, 1.0, 1.0, 1.0)        # Text color
-        
-        # Button padding and borders
-        self.frame_padding = (4.0, 4.0)          # Inner padding
-        self.frame_rounding = 3.0                # Corner rounding
-        self.border_size = 1.0                   # Border width
-        self.border_color = (0.5, 0.5, 0.5, 1.0) # Border color
-        
-        # Button sizing
-        self.min_size = (0.0, 0.0)              # Minimum button size
+        self.normal_bg = (0.2, 0.2, 0.2, 1.0)    # Normal background color
+        self.hovered_bg = (0.3, 0.3, 0.3, 1.0)   # Hovered background color 
+        self.active_bg = (0.4, 0.4, 0.4, 1.0)    # Active/pressed background color
         
     def push(self):
         """Apply all button styles"""
+        self.push_common_styles()
         imgui.push_style_color(imgui.COLOR_BUTTON, *self.normal_bg)
         imgui.push_style_color(imgui.COLOR_BUTTON_HOVERED, *self.hovered_bg)
         imgui.push_style_color(imgui.COLOR_BUTTON_ACTIVE, *self.active_bg)
-        imgui.push_style_color(imgui.COLOR_TEXT, *self.text)
-        imgui.push_style_var(imgui.STYLE_FRAME_PADDING, (self.frame_padding[0], self.frame_padding[1]))
-        imgui.push_style_var(imgui.STYLE_FRAME_ROUNDING, self.frame_rounding)
-        imgui.push_style_color(imgui.COLOR_BORDER, *self.border_color)
         
     def pop(self):
         """Remove all pushed styles"""
-        imgui.pop_style_color(5)  # Pop all colors (button normal, hovered, active, text, border)
-        imgui.pop_style_var(2)    # Pop all style vars (padding, rounding, border size)
+        imgui.pop_style_color(3)  # Pop button-specific colors (normal, hovered, active)
+        self.pop_common_styles()
+
 
 def button(label: str, style: ButtonStyle = None) -> bool:
     """Wrapper for imgui button with optional style"""
